@@ -12,6 +12,7 @@ import { Task } from './tasks/entities/task.entity';
 import { Subtask } from './tasks/entities/subtask.entity';
 import { Comment } from './tasks/entities/comment.entity';
 import { Activity } from './tasks/entities/activity.entity';
+import { TasksModule } from './tasks/tasks.module';
 
 
 @Module({
@@ -33,6 +34,7 @@ import { Activity } from './tasks/entities/activity.entity';
     UsersModule,
     ProjectsModule,
     LabelsModule,
+    TasksModule,
   ],
 })
 export class AppModule {}
