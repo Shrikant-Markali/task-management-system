@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { useTasks } from '@/hooks/useTasks';
 import { TaskBoard } from '@/components/tasks/TaskBoard';
-import type { Task } from '@/types';
+import { TaskDetailPanel } from '@/components/tasks/TaskDetailPanel';
 
 export default function TasksPage() {
   const { tasks, isLoading, refresh } = useTasks();
-  const [openTask, setOpenTask] = useState<Task | null>(null);
+  const [openTaskId, setOpenTaskId] = useState<string | null>(null);
 
   return (
     <div className="flex h-full flex-col">
@@ -18,18 +18,10 @@ export default function TasksPage() {
         {isLoading ? (
           <p className="p-4 text-sm text-text-muted">Loading…</p>
         ) : (
-          <TaskBoard tasks={tasks} onOpenTask={setOpenTask} onTaskCreated={refresh} />
+          <TaskBoard tasks={tasks} onOpenTask={(t) => setOpenTaskId(t.id)} onTaskCreated={refresh} />
         )}
       </div>
-      {openTask && (
-        <div className="fixed inset-0 z-40 flex justify-end bg-black/30" onClick={() => setOpenTask(null)}>
-          <div onClick={(e) => e.stopPropagation()} className="h-full w-full max-w-md bg-surface p-6">
-            <p className="text-lg font-semibold text-text-primary">{openTask.title}</p>
-            <p className="mt-2 text-sm text-text-secondary">Status: {openTask.status}</p>
-            <button onClick={() => setOpenTask(null)} className="mt-4 text-sm text-accent">Close</button>
-          </div>
-        </div>
-      )}
+      <TaskDetailPanel taskId={openTaskId} onClose={() => setOpenTaskId(null)} onChanged={refresh} />
     </div>
   );
 }
