@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
@@ -26,9 +27,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <aside className="flex w-56 shrink-0 flex-col justify-between border-r border-border bg-surface-subtle p-4">
         <div>
           <p className="mb-4 text-sm font-semibold text-text-primary">{user.fullName}</p>
-          <a href="/tasks" className="block rounded-lg px-3 py-2 text-sm font-medium text-text-secondary hover:bg-surface">
+          <Link href="/tasks" className="block rounded-lg px-3 py-2 text-sm font-medium text-text-secondary hover:bg-surface">
             Tasks
-          </a>
+          </Link>
+          <Link href="/projects" className="block rounded-lg px-3 py-2 text-sm font-medium text-text-secondary hover:bg-surface">
+            Projects
+          </Link>
+          <Link href="/settings" className="block rounded-lg px-3 py-2 text-sm font-medium text-text-secondary hover:bg-surface">
+            Settings
+          </Link>
         </div>
         <button onClick={logout} className="text-left text-sm text-priority-urgent">
           Log out

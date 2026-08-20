@@ -29,11 +29,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [accent, setAccentState] = useState<AccentColor>('BLUE');
 
   useEffect(() => {
-    const storedMode = localStorage.getItem(MODE_KEY) as ThemeMode | null;
-    const storedAccent = localStorage.getItem(ACCENT_KEY) as AccentColor | null;
-    if (storedMode) setModeState(storedMode);
-    if (storedAccent) setAccentState(storedAccent);
-  }, []);
+  const storedMode = (localStorage.getItem(MODE_KEY) as ThemeMode | null) ?? 'LIGHT';
+  const storedAccent = (localStorage.getItem(ACCENT_KEY) as AccentColor | null) ?? 'BLUE';
+  setModeState(storedMode);
+  setAccentState(storedAccent);
+  applyToDocument(storedMode, storedAccent);
+}, []);
 
   const setMode = useCallback((next: ThemeMode) => {
     setModeState(next);
