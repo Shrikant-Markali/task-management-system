@@ -14,6 +14,7 @@ export interface Task {
   priority: Priority;
   projectId: string | null;
   assigneeId: string | null;
+  project?: { id: string; name: string } | null;
   assignee?: { id: string; fullName: string; avatarSeed: string } | null;
   dueDateStart: string | null;
   dueDateEnd: string | null;
@@ -23,4 +24,9 @@ export interface Task {
   subtasks?: unknown[];
   comments?: unknown[];
   activities?: unknown[];
+}
+export interface User {
+  id: string;
+  fullName: string;
+  avatarSeed: string;
 }

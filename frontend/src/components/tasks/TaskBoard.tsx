@@ -9,10 +9,12 @@ export function TaskBoard({
   tasks,
   onOpenTask,
   onTaskCreated,
+  projectId,
 }: {
   tasks: Task[];
   onOpenTask: (task: Task) => void;
   onTaskCreated: () => void;
+  projectId?: string;
 }) {
   const [addingTo, setAddingTo] = useState<string | null>(null);
   const [draftTitle, setDraftTitle] = useState('');
@@ -22,7 +24,7 @@ export function TaskBoard({
     setAddingTo(null);
     setDraftTitle('');
     if (!title) return;
-    await api.post('/tasks', { title, status: statusKey });
+    await api.post('/tasks', { title, status: statusKey, projectId });
     onTaskCreated();
   }
 
@@ -44,6 +46,9 @@ export function TaskBoard({
                   className="rounded-xl border border-border bg-surface p-3 text-left text-sm text-text-primary hover:shadow-sm"
                 >
                   {task.title}
+                  {task.assignee && (
+                    <span className="mt-1 block text-xs text-text-muted">👤 {task.assignee.fullName}</span>
+                  )}
                 </button>
               ))}
             </div>

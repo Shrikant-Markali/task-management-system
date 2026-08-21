@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api';
+import { useUsers } from '@/hooks/useUsers';
+import { useProjects } from '@/hooks/useProjects';
 import type { Task, TaskStatus, Priority } from '@/types';
 
 const STATUSES: TaskStatus[] = ['BACKLOG', 'TODO', 'DOING', 'COMPLETED', 'ONHOLD'];
@@ -18,6 +20,8 @@ export function TaskDetailPanel({
 }) {
   const [task, setTask] = useState<Task | null>(null);
   const [description, setDescription] = useState('');
+  const { users } = useUsers();
+  const { projects } = useProjects();
 
   const load = useCallback(async () => {
     if (!taskId) return;
@@ -71,6 +75,7 @@ export function TaskDetailPanel({
               {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
+
           <div className="flex items-center justify-between">
             <span className="text-xs text-text-muted">Priority</span>
             <select
@@ -79,6 +84,30 @@ export function TaskDetailPanel({
               className="rounded-md bg-surface-subtle px-2 py-1 text-sm"
             >
               {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-text-muted">Assignee</span>
+            <select
+              value={task.assigneeId ?? ''}
+              onChange={(e) => patch({ assigneeId: e.target.value || undefined })}
+              className="rounded-md bg-surface-subtle px-2 py-1 text-sm"
+            >
+              <option value="">Unassigned</option>
+              {users.map((u) => <option key={u.id} value={u.id}>{u.fullName}</option>)}
+            </select>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-text-muted">Project</span>
+            <select
+              value={task.projectId ?? ''}
+              onChange={(e) => patch({ projectId: e.target.value || undefined })}
+              className="rounded-md bg-surface-subtle px-2 py-1 text-sm"
+            >
+              <option value="">No project</option>
+              {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
           </div>
         </div>

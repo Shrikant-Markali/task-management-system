@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useProjects } from '@/hooks/useProjects';
 import { api } from '@/lib/api';
 
@@ -46,8 +47,13 @@ export default function ProjectsPage() {
       ) : (
         <ul className="flex flex-col gap-2">
           {projects.map((p) => (
-            <li key={p.id} className="rounded-lg border border-border p-3 text-sm text-text-primary">
-              {p.name} — <span className="text-text-secondary">{p.priority}</span>
+            <li key={p.id}>
+              <Link
+                href={`/projects/${p.id}`}
+                className="block rounded-lg border border-border p-3 text-sm text-text-primary hover:bg-surface-subtle"
+              >
+                {p.name} — <span className="text-text-secondary">{p.priority}</span>
+              </Link>
             </li>
           ))}
         </ul>
